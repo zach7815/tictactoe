@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { playerContext } from './Context';
 import './App.css';
+import { Gameboard } from './GameBoard';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [playerTurn, setPlayerTurn] = useState({ player1: 0, player2: 0 });
+	const [gameBoard, setGameBoard] = useState([
+		[null, null, null],
+		[null, null, null],
+		[null, null, null],
+	]);
+
+	const handleTurns = (player1, player2) => {
+		if (player1.player1 === player2.player2) {
+		}
+	};
+	return (
+		<div className='container'>
+			<div className='game-board-wrapper'>
+				<playerContext.Provider value={[playerTurn, setPlayerTurn]}>
+					<Gameboard />
+				</playerContext.Provider>
+			</div>
+		</div>
+	);
 }
 
 export default App;
