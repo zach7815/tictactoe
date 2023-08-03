@@ -1,11 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { playerContext } from './Context';
-import { Rocket } from './Rocket';
-import { Alien } from './Alien';
 
-export const Tile = (props) => {
+export const Tile = ({ fill, onClick }) => {
 	const [fillStatus, setFillStatus] = useState({ value: null });
 	const [playerTurn, setPlayerTurn] = useContext(playerContext);
+
+	const playerIcons = {
+		Rocket: '🚀',
+		Alien: '🛸',
+	};
 
 	const handleTurns = (player1, player2) => {
 		if (player1 === player2 || player1 < player2) {
@@ -20,12 +23,12 @@ export const Tile = (props) => {
 
 	const handleClick = () => {
 		handleTurns(playerTurn.player1, playerTurn.player2);
+		console.log(playerTurn);
 	};
 
 	return (
-		<div className='tile' onClick={handleClick}>
-			{fillStatus === 'Rocket' && <Rocket />}
-			{fillStatus === 'Alien' && <Alien />}
+		<div className='tile' onClick={onClick}>
+			{playerIcons[fill]}
 		</div>
 	);
 };
