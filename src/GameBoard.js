@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Tile } from './Tile';
-import { handleWin, checkHorizontal, checkVertical } from './gameFuncts';
+import { handleWin } from './gameFuncts';
 
 export const Gameboard = () => {
 	const [gameBoard, setGameBoard] = useState([
@@ -21,7 +21,9 @@ export const Gameboard = () => {
 		setCurrentPlayer(currentPlayer === 'player1' ? 'player2' : 'player1');
 	}
 
-	useEffect(() => {}, [gameBoard]);
+	useEffect(() => {
+		console.log(handleWin(gameBoard));
+	}, [gameBoard]);
 
 	return (
 		<div>

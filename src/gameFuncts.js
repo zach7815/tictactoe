@@ -1,4 +1,4 @@
-const checkHorizontal = (gameboard, result = '') => {
+export const checkHorizontal = (gameboard, result = '') => {
 	for (let row of gameboard) {
 		if (row.every((cell) => cell === '🛸')) {
 			result = 'Alien';
@@ -14,7 +14,7 @@ const checkHorizontal = (gameboard, result = '') => {
 
 	return result;
 };
-const checkVertical = (gameboard, result = '') => {
+export const checkVertical = (gameboard, result = '') => {
 	const numRows = gameboard.length;
 	const numCols = gameboard[0].length;
 
@@ -48,7 +48,7 @@ const checkVertical = (gameboard, result = '') => {
 	return result;
 };
 
-const checkDiagonal = (gameBoard, result) => {
+export const checkDiagonal = (gameBoard, result) => {
 	const diagonal = [];
 	for (let i = 0; i < gameBoard.length; i++) {
 		diagonal.push(gameBoard[i][i]);
@@ -65,7 +65,7 @@ const checkDiagonal = (gameBoard, result) => {
 	return result;
 };
 
-const checkReverseDiagonal = (gameBoard, result) => {
+export const checkReverseDiagonal = (gameBoard, result) => {
 	const reverseDiagonal = [];
 	for (let i = 0; i < gameBoard.length; i++) {
 		reverseDiagonal.push(gameBoard[i][gameBoard.length - 1 - i]);
@@ -82,7 +82,7 @@ const checkReverseDiagonal = (gameBoard, result) => {
 	return result;
 };
 
-const handleWin = (gameBoard) => {
+export const handleWin = (gameBoard) => {
 	let result = '';
 
 	result = checkHorizontal(gameBoard, result);
@@ -107,37 +107,3 @@ const handleWin = (gameBoard) => {
 
 	return 'Draw';
 };
-
-const verRocket = [
-	['🚀', null, null],
-	['🚀', null, null],
-	['🚀', null, null],
-];
-
-const verRocketlastcol = [
-	[null, null, '🚀'],
-	[null, null, '🚀'],
-	[null, null, '🚀'],
-];
-
-const verAlienlastcol = [
-	[null, null, '🛸'],
-	[null, null, '🛸'],
-	[null, null, '🛸'],
-];
-
-const horRocket = [
-	['🚀', '🚀', '🚀'],
-	[null, null, null],
-	[null, null, null],
-];
-
-const horAlien = [
-	['🛸', '🛸', '🛸'],
-	[null, null, null],
-	[null, null, null],
-];
-
-let result = '';
-
-console.log(checkVertical(verAlienlastcol, result));
