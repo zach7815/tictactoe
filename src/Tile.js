@@ -1,33 +1,20 @@
-import React, { useState, useContext } from 'react';
-import { playerContext } from './Context';
-
-export const Tile = ({ fill, onClick }) => {
-	const [fillStatus, setFillStatus] = useState({ value: null });
-	const [playerTurn, setPlayerTurn] = useContext(playerContext);
-
+export const Tile = ({ fill, onClick, setFillStatus }) => {
 	const playerIcons = {
 		Rocket: '🚀',
 		Alien: '🛸',
 	};
 
-	const handleTurns = (player1, player2) => {
-		if (player1 === player2 || player1 < player2) {
-			setFillStatus('Rocket');
-			setPlayerTurn({ player1: player1 + 1, player2 });
-		} else {
-			setFillStatus('Alien');
-			setPlayerTurn({ player1, player2: player2 + 1 });
-		}
-		console.log(fillStatus);
-	};
-
-	const handleClick = () => {
-		handleTurns(playerTurn.player1, playerTurn.player2);
-		console.log(playerTurn);
-	};
+	function handleTileClick() {
+		setFillStatus(playerIcons[fill]);
+		onClick();
+	}
 
 	return (
-		<div className='tile' onClick={onClick}>
+		<div
+			className='tile'
+			onClick={fill === null ? handleTileClick : undefined}
+			disabled={fill !== null}
+		>
 			{playerIcons[fill]}
 		</div>
 	);

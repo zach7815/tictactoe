@@ -8,6 +8,7 @@ export const Gameboard = () => {
 		[null, null, null],
 		[null, null, null],
 	]);
+	const [fillStatus, setFillStatus] = useState({ value: null });
 
 	const [currentPlayer, setCurrentPlayer] = useState('player1');
 
@@ -30,6 +31,8 @@ export const Gameboard = () => {
 						<Tile
 							key={colIndex}
 							fill={cell}
+							fillStatus={fillStatus}
+							setFillStatus={setFillStatus}
 							onClick={() => handleCellClick(rowIndex, colIndex)}
 						/>
 					))}
