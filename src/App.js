@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
-import { playerContext } from './Context';
+import React from 'react';
+
 import './App.css';
-import { Gameboard } from './GameBoard';
+import { Gameboard } from './GameBoard.js';
 
 function App() {
-	const [playerTurn, setPlayerTurn] = useState({ player1: 0, player2: 0 });
-
 	return (
 		<div className='container'>
 			<div className='game-board-wrapper'>
-				<playerContext.Provider value={[playerTurn, setPlayerTurn]}>
-					<Gameboard />
-				</playerContext.Provider>
+				<Gameboard />
 			</div>
 		</div>
 	);

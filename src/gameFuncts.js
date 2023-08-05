@@ -1,10 +1,10 @@
 export const checkHorizontal = (gameboard, result = '') => {
 	for (let row of gameboard) {
-		if (row.every((cell) => cell === '🛸')) {
+		if (row.every((cell) => cell === 'Alien')) {
 			result = 'Alien';
 			break;
 		}
-		if (row.every((cell) => cell === '🚀')) {
+		if (row.every((cell) => cell === 'Rocket')) {
 			result = 'Rocket';
 			break;
 		} else {
@@ -36,7 +36,7 @@ export const checkVertical = (gameboard, result = '') => {
 		}
 
 		if (isWinningColumn) {
-			result = cell === '🛸' ? 'Alien' : 'Rocket';
+			result = cell === 'Alien' ? 'Alien' : 'Rocket';
 			break;
 		}
 	}
@@ -54,9 +54,9 @@ export const checkDiagonal = (gameBoard, result) => {
 		diagonal.push(gameBoard[i][i]);
 	}
 
-	if (diagonal.every((val) => val === `🚀`)) {
+	if (diagonal.every((val) => val === `Rocket`)) {
 		result = 'Rocket';
-	} else if (diagonal.every((val) => val === `🛸`)) {
+	} else if (diagonal.every((val) => val === `Alien`)) {
 		result = 'Alien';
 	} else {
 		result = 'Draw';
@@ -71,9 +71,9 @@ export const checkReverseDiagonal = (gameBoard, result) => {
 		reverseDiagonal.push(gameBoard[i][gameBoard.length - 1 - i]);
 	}
 
-	if (reverseDiagonal.every((val) => val === `🚀`)) {
+	if (reverseDiagonal.every((val) => val === `Rocket`)) {
 		result = 'Rocket';
-	} else if (reverseDiagonal.every((val) => val === `🛸`)) {
+	} else if (reverseDiagonal.every((val) => val === `Alien`)) {
 		result = 'Alien';
 	} else {
 		result = 'Draw';
@@ -106,4 +106,15 @@ export const handleWin = (gameBoard) => {
 	}
 
 	return 'Draw';
+};
+
+export const isTurnStillPossible = (gameBoard) => {
+	let movesStillPossible = true;
+
+	for (let i = 0; i < gameBoard.length; i++) {
+		if (gameBoard[i].every((cell) => cell === 'Alien' || cell === 'Rocket')) {
+			movesStillPossible = false;
+		}
+		return movesStillPossible;
+	}
 };

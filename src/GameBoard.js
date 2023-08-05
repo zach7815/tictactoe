@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Tile } from './Tile';
-import { handleWin } from './gameFuncts';
+import { Tile } from './Tile.js';
+import { handleWin } from './gameFuncts.js';
 
 export const Gameboard = () => {
 	const [gameBoard, setGameBoard] = useState([
@@ -22,6 +22,7 @@ export const Gameboard = () => {
 	}
 
 	useEffect(() => {
+		console.log(gameBoard);
 		console.log(handleWin(gameBoard));
 	}, [gameBoard]);
 
