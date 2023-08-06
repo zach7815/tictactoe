@@ -1,4 +1,4 @@
-export const Tile = ({ fill, onClick, setFillStatus }) => {
+export const Tile = ({ fill, onClick, setFillStatus, id }) => {
 	const playerIcons = {
 		Rocket: '🚀',
 		Alien: '🛸',
@@ -12,6 +12,7 @@ export const Tile = ({ fill, onClick, setFillStatus }) => {
 	return (
 		<div
 			className='tile'
+			id={id}
 			onClick={fill === null ? handleTileClick : undefined}
 			disabled={fill !== null}
 		>

@@ -1,5 +1,5 @@
-export const checkHorizontal = (gameboard, result = '') => {
-	for (let row of gameboard) {
+export const checkHorizontal = (gameBoard, result = '') => {
+	for (let row of gameBoard) {
 		if (row.every((cell) => cell === 'Alien')) {
 			result = 'Alien';
 			break;
@@ -14,22 +14,22 @@ export const checkHorizontal = (gameboard, result = '') => {
 
 	return result;
 };
-export const checkVertical = (gameboard, result = '') => {
-	const numRows = gameboard.length;
-	const numCols = gameboard[0].length;
+export const checkVertical = (gameBoard, result = '') => {
+	const numRows = gameBoard.length;
+	const numCols = gameBoard[0].length;
 
 	for (let col = 0; col < numCols; col++) {
 		let cell = null;
 		let isWinningColumn = true;
 
 		for (let row = 0; row < numRows; row++) {
-			if (gameboard[row][col] === null) {
+			if (gameBoard[row][col] === null) {
 				isWinningColumn = false;
 				break;
 			}
 			if (cell === null) {
-				cell = gameboard[row][col];
-			} else if (gameboard[row][col] !== cell) {
+				cell = gameBoard[row][col];
+			} else if (gameBoard[row][col] !== cell) {
 				isWinningColumn = false;
 				break;
 			}
@@ -83,29 +83,57 @@ export const checkReverseDiagonal = (gameBoard, result) => {
 };
 
 export const handleWin = (gameBoard) => {
-	let result = '';
+	let winner = '';
+	let direction = '';
 
-	result = checkHorizontal(gameBoard, result);
-	if (result !== 'Draw') {
-		return result;
+	winner = checkHorizontal(gameBoard);
+	if (winner !== 'Draw') {
+		direction = 'Horizontal';
+		return { direction, winner };
 	}
 
-	result = checkVertical(gameBoard, result);
-	if (result !== 'Draw') {
-		return result;
+	winner = checkVertical(gameBoard);
+	if (winner !== 'Draw') {
+		direction = 'Vertical';
+		return { direction, winner };
 	}
 
-	result = checkDiagonal(gameBoard, result);
-	if (result !== 'Draw') {
-		return result;
+	winner = checkDiagonal(gameBoard);
+	if (winner !== 'Draw') {
+		direction = 'Diagonal';
+		return { direction, winner };
 	}
 
-	result = checkReverseDiagonal(gameBoard, result);
-	if (result !== 'Draw') {
-		return result;
+	winner = checkReverseDiagonal(gameBoard);
+	if (winner !== 'Draw') {
+		direction = 'ReverseDiagonal';
+		return { direction, winner };
 	}
 
-	return 'Draw';
+	return { direction, winner };
+};
+
+export const findHorizontalWin = (gameBoard) => {
+	for (let rowIndex = 0; rowIndex < gameBoard.length; rowIndex++) {
+		const row = gameBoard[rowIndex];
+		if (row.every((cell) => cell === 'Alien' || cell === 'Rocket')) {
+			return rowIndex;
+		}
+	}
+	return -1; // Return -1 if no winning row is found
+};
+
+export const findVerticalWin = (gameBoard) => {
+	const numCols = gameBoard[0].length;
+
+	for (let col = 0; col < numCols; col++) {
+		const column = [gameBoard[0][col], gameBoard[1][col], gameBoard[2][col]];
+		if (column.every((cell) => cell === 'Alien' || cell === 'Rocket')) {
+			return col;
+		}
+	}
+
+	return -1; // Return -1 if no winning column is found
 };
 
 export const isTurnStillPossible = (gameBoard) => {
