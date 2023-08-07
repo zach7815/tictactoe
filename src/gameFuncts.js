@@ -116,7 +116,9 @@ export const handleWin = (gameBoard) => {
 export const findHorizontalWin = (gameBoard) => {
 	for (let rowIndex = 0; rowIndex < gameBoard.length; rowIndex++) {
 		const row = gameBoard[rowIndex];
-		if (row.every((cell) => cell === 'Alien' || cell === 'Rocket')) {
+		if (row.every((cell) => cell === 'Alien')) {
+			return rowIndex;
+		} else if (row.every((cell) => cell === 'Rocket')) {
 			return rowIndex;
 		}
 	}
@@ -128,7 +130,9 @@ export const findVerticalWin = (gameBoard) => {
 
 	for (let col = 0; col < numCols; col++) {
 		const column = [gameBoard[0][col], gameBoard[1][col], gameBoard[2][col]];
-		if (column.every((cell) => cell === 'Alien' || cell === 'Rocket')) {
+		if (column.every((cell) => cell === 'Alien')) {
+			return col;
+		} else if (column.every((cell) => cell === 'Rocket')) {
 			return col;
 		}
 	}

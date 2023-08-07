@@ -81,13 +81,13 @@ const alienVerticalFilledBoardMiddle = [
 const rocketVerticalFilledBoardcol1 = [
 	['Rocket', 'Alien', 'Rocket'],
 	['Rocket', 'Rocket', 'Alien'],
-	['"Rocket', 'Alien', 'Alien'],
+	['Rocket', 'Alien', 'Alien'],
 ];
 
 const AlienVerticalFilledBoardcol3 = [
 	['Rocket', 'Alien', 'Alien'],
 	['Alien', 'Rocket', 'Alien'],
-	['"Rocket', 'Alien', 'Alien'],
+	['Rocket', 'Alien', 'Alien'],
 ];
 const rocketDiagonalWin = [
 	['Rocket', null, null],
