@@ -24,6 +24,23 @@ const alienHorizontalWin = [
 	[null, null, null],
 ];
 
+const rocketHorizontalFilledBoard = [
+	['Rocket', 'Rocket', 'Rocket'],
+	['Alien', 'Rocket', 'Alien'],
+	['Alien', 'Alien', 'Rocket'],
+];
+const alienHorizontalFilledBoard = [
+	['Rocket', 'Rocket', 'Alien'],
+	['Alien', 'Rocket', 'Alien'],
+	['Alien', 'Alien', 'Alien'],
+];
+
+const alienHorizontalFilledBoardMiddle = [
+	['Rocket', 'Rocket', 'Alien'],
+	['Alien', 'Alien', 'Alien'],
+	['"Rocket', 'Alien', 'Rocket'],
+];
+
 const alienHorizontalWinMiddleRow = [
 	[null, null, null],
 	['Alien', 'Alien', 'Alien'],
@@ -36,6 +53,7 @@ const alienHorizontalWinLastRow = [
 	['Alien', 'Alien', 'Alien'],
 ];
 
+// Vertical tests
 const rocketVerticalWin = [
 	['Rocket', null, null],
 	['Rocket', null, null],
@@ -52,6 +70,24 @@ const alienVerticalWinLastCol = [
 	[null, null, 'Alien'],
 	[null, null, 'Alien'],
 	[null, null, 'Alien'],
+];
+
+const alienVerticalFilledBoardMiddle = [
+	['Rocket', 'Alien', 'Alien'],
+	['Alien', 'Alien', 'Alien'],
+	['"Rocket', 'Alien', 'Rocket'],
+];
+
+const rocketVerticalFilledBoardcol1 = [
+	['Rocket', 'Alien', 'Rocket'],
+	['Rocket', 'Rocket', 'Alien'],
+	['"Rocket', 'Alien', 'Alien'],
+];
+
+const AlienVerticalFilledBoardcol3 = [
+	['Rocket', 'Alien', 'Alien'],
+	['Alien', 'Rocket', 'Alien'],
+	['"Rocket', 'Alien', 'Alien'],
 ];
 const rocketDiagonalWin = [
 	['Rocket', null, null],
@@ -77,6 +113,7 @@ const alienReverseDiagonalWin = [
 	['Alien', null, null],
 ];
 
+// Draw cases
 const drawCase = [
 	['Rocket', 'Alien', 'Rocket'],
 	['Alien', 'Rocket', 'Alien'],
@@ -195,12 +232,52 @@ test('findHorizontal returns 2 for alienHorizontalWinLastRow', () => {
 	expect(findHorizontalWin(alienHorizontalWinLastRow)).toBe(2);
 });
 
+// mixed Full Board Horizontal:
+
+test('findHorizontal returns o for rocketHorizontalFilledBoard', () => {
+	expect(findHorizontalWin(rocketHorizontalFilledBoard)).toBe(0);
+});
+test('findHorizontal returns 2 for alienHorizontalFilledBoard', () => {
+	expect(findHorizontalWin(alienHorizontalFilledBoard)).toBe(2);
+});
+test('findHorizontal returns 1 for alienHorizontalFilledBoardMiddle', () => {
+	expect(findHorizontalWin(alienHorizontalFilledBoardMiddle)).toBe(1);
+});
+
+test('findHorizontal returns -1 for drawCase', () => {
+	expect(findHorizontalWin(drawCase)).toBe(-1);
+});
+test('findHorizontal returns -1 for drawCase2', () => {
+	expect(findHorizontalWin(drawCase)).toBe(-1);
+});
+
 // Find Winning Col for vertical cols.
 
 test('findVertical returns 0 for rocketVerticalWin', () => {
 	expect(findVerticalWin(rocketVerticalWin)).toBe(0);
 });
 
-test('findVertical returns 0 for alienVerticalWinLastCol', () => {
+test('findVertical returns 2 for alienVerticalWinLastCol', () => {
 	expect(findVerticalWin(alienVerticalWinLastCol)).toBe(2);
+});
+
+// filled boards
+test('findVertical returns 1 for alienVerticalFilledBoardMiddle', () => {
+	expect(findVerticalWin(alienVerticalFilledBoardMiddle)).toBe(1);
+});
+
+test('findVertical returns 0 for rocketVerticalFilledBoardcol1', () => {
+	expect(findVerticalWin(rocketVerticalFilledBoardcol1)).toBe(0);
+});
+
+test('findVertical returns 2 for AlienVerticalFilledBoardcol3', () => {
+	expect(findVerticalWin(AlienVerticalFilledBoardcol3)).toBe(2);
+});
+
+// draw scenarios
+test('findVertical returns -1 for drawCase', () => {
+	expect(findVerticalWin(drawCase)).toBe(-1);
+});
+test('findVertical returns -1 for drawCase2', () => {
+	expect(findVerticalWin(drawCase2)).toBe(-1);
 });

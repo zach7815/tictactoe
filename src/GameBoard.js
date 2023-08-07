@@ -1,6 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Tile } from './Tile.js';
-import { handleWin, isTurnStillPossible } from './gameFuncts.js';
+import {
+	handleWin,
+	isTurnStillPossible,
+	findHorizontalWin,
+	findVerticalWin,
+} from './gameFuncts.js';
 
 export const Gameboard = () => {
 	const [gameBoard, setGameBoard] = useState([
@@ -25,7 +30,15 @@ export const Gameboard = () => {
 		setCurrentPlayer(currentPlayer === 'player1' ? 'player2' : 'player1');
 	}
 
-	const winStrikeThrough = (gameWin) => {};
+	const winStrikeThrough = (gameWin, gameBoard) => {
+		const { direction, winner } = gameWin;
+		const strike = document.querySelector('.strike');
+		if (direction === 'Horizontal') {
+			const winningRow = findHorizontalWin(gameBoard);
+			console.log(gameBoard);
+			console.log(winningRow);
+		}
+	};
 
 	const handleEndGame = useCallback(() => {
 		if (gameWin.winner === 'Rocket') {
@@ -43,9 +56,10 @@ export const Gameboard = () => {
 		setAreMovesPossible(isTurnStillPossible(gameBoard));
 		const winResult = handleWin(gameBoard);
 		setGameWin(winResult);
-		console.log(areMovesPossible);
-		console.log(winResult);
-		handleEndGame();
+
+		winStrikeThrough(winResult, gameBoard);
+
+		// handleEndGame();
 	}, [gameBoard, handleEndGame, areMovesPossible]);
 	return (
 		<>
