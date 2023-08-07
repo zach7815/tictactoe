@@ -48,7 +48,7 @@ export const Gameboard = () => {
 		handleEndGame();
 	}, [gameBoard, handleEndGame, areMovesPossible]);
 	return (
-		<div>
+		<>
 			{gameBoard.map((row, rowIndex) => (
 				<div className='game-board' key={rowIndex}>
 					{row.map((cell, colIndex) => {
@@ -66,6 +66,6 @@ export const Gameboard = () => {
 					})}
 				</div>
 			))}
-		</div>
+		</>
 	);
 };

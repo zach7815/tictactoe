@@ -1,5 +1,6 @@
 .game-board-wrapper {
 	height: fit-content;
+	position: relative;
 }
 
 .game-board {
@@ -8,7 +9,6 @@
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-gap: 1rem;
 	margin: 20px auto;
-	padding: 0.5rem;
 }
 
 .tile {
@@ -27,4 +27,65 @@
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
+}
+
+.strike {
+	border-bottom: 10px solid greenyellow;
+	position: absolute;
+	width: 98%; /* Use relative width */
+	left: 5%; /* Use relative positioning */
+	height: 5px;
+	border-radius: 30px;
+}
+
+.rows {
+	transform: translateY(-50%); /* Center the strike vertically */
+	transform: translateX(-4%);
+}
+
+.row1 {
+	top: 15%;
+}
+
+.row2 {
+	top: 48%; /* Adjust the position based on the desired location */
+}
+
+.row3 {
+	bottom: 18%; /* Adjust the position based on the desired location */
+}
+
+.columns {
+	top: 2.5%;
+	width: 100%;
+	transform: rotate(90deg);
+	transform-origin: left bottom; /* Set the rotation origin */
+}
+
+.col1 {
+	left: 13%;
+}
+
+.col2 {
+	left: 48%;
+}
+
+.col3 {
+	left: 83%;
+}
+
+.diagonal {
+	top: 3.5%;
+	transform: rotate(45.5deg);
+	transform-origin: left bottom;
+	left: 0%;
+	width: 139%;
+}
+
+.reverse-diagonal {
+	top: 90.5%;
+	transform: rotate(-45.5deg);
+	left: 2.5%;
+	transform-origin: left bottom;
+	width: 139%;
 }
