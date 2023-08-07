@@ -98,9 +98,9 @@ test('checkVertical returns "Rocket" for rocketVerticalWin', () => {
 	expect(checkVertical(rocketVerticalWin, result)).toBe('Rocket');
 });
 
-test('checkVertical returns "Rocket" for alienVerticalWinLastCol', () => {
+test('checkVertical returns "Alien" for alienVerticalWinLastCol', () => {
 	const result = '';
-	expect(checkVertical(alienVerticalWinLastCol, result)).toBe('Rocket');
+	expect(checkVertical(alienVerticalWinLastCol, result)).toBe('Alien');
 });
 
 test('checkHorizontal returns "Rocket" for rocketHorizontalWin', () => {
@@ -133,24 +133,38 @@ test('checkReverseDiagonal returns "Alien" for alienReverseDiagonalWin', () => {
 	expect(checkReverseDiagonal(alienReverseDiagonalWin, result)).toBe('Alien');
 });
 
-test('handleWin returns "Draw" for drawCase', () => {
-	expect(handleWin(drawCase)).toBe('Draw');
+// Tests for handleWin
+
+test('handleWin returns {direction:"Draw", winner:"Draw"} for drawCase', () => {
+	expect(handleWin(drawCase)).toEqual({ direction: '', winner: 'Draw' });
 });
 
-test('handleWin returns "Alien" for alienDiagonalWin', () => {
-	expect(handleWin(alienDiagonalWin)).toBe('Alien');
+test('handleWin returns {direction: "Diagonal", winner: "Alien"} for alienDiagonalWin', () => {
+	expect(handleWin(alienDiagonalWin)).toEqual({
+		direction: 'Diagonal',
+		winner: 'Alien',
+	});
 });
 
-test('handleWin returns "Alien" for alienHorizontalWin', () => {
-	expect(handleWin(alienHorizontalWin)).toBe('Alien');
+test('handleWin returns {direction: "Diagonal",winner: "Alien"} for alienHorizontalWin', () => {
+	expect(handleWin(alienHorizontalWin)).toEqual({
+		direction: 'Horizontal',
+		winner: 'Alien',
+	});
 });
 
-test('handleWin returns "Rocket" for rocketHorizontalWin', () => {
-	expect(handleWin(rocketHorizontalWin)).toBe('Rocket');
+test('handleWin returns {direction: "Horizontal",winner: "Rocket"} for rocketHorizontalWin', () => {
+	expect(handleWin(rocketHorizontalWin)).toEqual({
+		direction: 'Horizontal',
+		winner: 'Rocket',
+	});
 });
 
-test('handleWin returns "Rocket" for rocketDiagonalWin', () => {
-	expect(handleWin(rocketDiagonalWin)).toBe('Rocket');
+test('handleWin returns {direction: "Diagonal",winner: "Rocket"} for rocketDiagonalWin', () => {
+	expect(handleWin(rocketDiagonalWin)).toEqual({
+		direction: 'Diagonal',
+		winner: 'Rocket',
+	});
 });
 
 // Turn possible tests
