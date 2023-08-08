@@ -2,11 +2,12 @@ import * as React from 'react';
 import { Tabs, Tab, AppBar, Box } from '@mui/material';
 import TabPanel from '../MuiComponents/TabPanel.js';
 
-export const FullWidthTabs = ({ difficulties }) => {
+export const FullWidthTabs = ({ difficulties, setDifficulty }) => {
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
+		setDifficulty(difficulties[newValue].difficulty);
 	};
 
 	const a11yProps = (index) => {
@@ -38,7 +39,7 @@ export const FullWidthTabs = ({ difficulties }) => {
 						>
 							{difficulties.map((difficulty, index) => (
 								<Tab
-									key={difficulty}
+									key={difficulty.TabIndex}
 									label={difficulty.difficulty}
 									{...a11yProps(index)}
 								/>
@@ -47,7 +48,7 @@ export const FullWidthTabs = ({ difficulties }) => {
 
 						{difficulties.map((difficulty, index) => (
 							<TabPanel
-								key={difficulty.index}
+								key={difficulty.TabContentIndex}
 								value={value}
 								index={index}
 								padding='2rem'
