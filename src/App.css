@@ -1,3 +1,7 @@
+header {
+	text-align: center;
+}
+
 .game-board-wrapper {
 	height: fit-content;
 	position: relative;
@@ -26,7 +30,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
+	height: 50vh;
 }
 
 .strike {
@@ -92,4 +96,10 @@
 	left: 2.5%;
 	transform-origin: left bottom;
 	width: 139%;
+}
+
+.buttons {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 3rem;
 }

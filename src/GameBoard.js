@@ -3,9 +3,8 @@ import { Tile } from './Tile.js';
 import {
 	handleWin,
 	isTurnStillPossible,
-	findHorizontalWin,
-	findVerticalWin,
-} from './gameFuncts.js';
+	winStrikeThrough,
+} from './gameFunctions/gameFuncts.js';
 
 export const Gameboard = () => {
 	const [gameBoard, setGameBoard] = useState([
@@ -30,51 +29,6 @@ export const Gameboard = () => {
 		setCurrentPlayer(currentPlayer === 'player1' ? 'player2' : 'player1');
 	}
 
-	const winStrikeThrough = (gameWin, gameBoard) => {
-		const { direction, winner } = gameWin;
-		console.log(direction);
-		const strike = document.querySelector('.strike');
-		const cssHorizontalClasses = {
-			0: 'row1',
-			1: 'row2',
-			2: 'row3',
-		};
-		const cssVerticalClasses = {
-			0: 'col1',
-			1: 'col2',
-			2: 'col3',
-		};
-
-		if (winner === 'Rocket') {
-			strike.style.borderColor = '#fe2c54';
-		}
-
-		if (direction === 'Horizontal') {
-			const winningRow = findHorizontalWin(gameBoard);
-			const rowCSS = cssHorizontalClasses[winningRow];
-			strike.classList.remove('hidden');
-			strike.classList.add('rows');
-			strike.classList.add(rowCSS);
-		}
-		if (direction === 'Vertical') {
-			const winningRow = findVerticalWin(gameBoard);
-			const columnCSS = cssVerticalClasses[winningRow];
-			strike.classList.remove('hidden');
-			strike.classList.add('columns');
-			strike.classList.add(columnCSS);
-		}
-
-		if (direction === 'Diagonal') {
-			strike.classList.remove('hidden');
-			strike.classList.add('diagonal');
-		}
-
-		if (direction === 'ReverseDiagonal') {
-			strike.classList.remove('hidden');
-			strike.classList.add('reverse-diagonal');
-		}
-	};
-
 	const handleEndGame = useCallback(() => {
 		if (gameWin.winner === 'Rocket') {
 			console.log('Congrats you won');
@@ -93,8 +47,6 @@ export const Gameboard = () => {
 		setGameWin(winResult);
 
 		winStrikeThrough(winResult, gameBoard);
-
-		// handleEndGame();
 	}, [gameBoard, handleEndGame, areMovesPossible]);
 	return (
 		<>
