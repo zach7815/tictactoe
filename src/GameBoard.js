@@ -6,28 +6,11 @@ import {
 	winStrikeThrough,
 } from './gameFunctions/gameFuncts.js';
 
-export const Gameboard = () => {
-	const [gameBoard, setGameBoard] = useState([
-		[null, null, null],
-		[null, null, null],
-		[null, null, null],
-	]);
-
+export const Gameboard = ({ gameBoard, handleCellClick, setRoundDone }) => {
 	const [fillStatus, setFillStatus] = useState({ value: null });
-
-	const [currentPlayer, setCurrentPlayer] = useState('player1');
 
 	const [gameWin, setGameWin] = useState('');
 	const [areMovesPossible, setAreMovesPossible] = useState(true);
-
-	function handleCellClick(row, col) {
-		// update the gameBoard state with the new fill value
-		const newGameBoard = [...gameBoard];
-		newGameBoard[row][col] = currentPlayer === 'player1' ? 'Rocket' : 'Alien';
-		setGameBoard(newGameBoard);
-		// switch to the next player's turn
-		setCurrentPlayer(currentPlayer === 'player1' ? 'player2' : 'player1');
-	}
 
 	const handleEndGame = useCallback(() => {
 		if (gameWin.winner === 'Rocket') {
@@ -46,8 +29,11 @@ export const Gameboard = () => {
 		const winResult = handleWin(gameBoard);
 		setGameWin(winResult);
 
-		winStrikeThrough(winResult, gameBoard);
-	}, [gameBoard, handleEndGame, areMovesPossible]);
+		if (winResult.winner !== 'Draw') {
+			setRoundDone(true);
+			winStrikeThrough(winResult, gameBoard);
+		}
+	}, [gameBoard, handleEndGame, areMovesPossible, setRoundDone]);
 	return (
 		<>
 			{gameBoard.map((row, rowIndex) => (

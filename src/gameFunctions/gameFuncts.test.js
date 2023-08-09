@@ -7,7 +7,7 @@ import {
 	isTurnStillPossible,
 	findHorizontalWin,
 	findVerticalWin,
-} from './gameFunctions/gameFuncts.js';
+} from './gameFuncts.js';
 
 import pkg from '@jest/globals';
 const { test } = pkg;
