@@ -98,13 +98,6 @@ header {
 	width: 139%;
 }
 
-.buttons {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 3rem;
-	width: 100%;
-}
-
 .start-game-component {
 	display: flex;
 	flex-direction: column;
@@ -114,7 +107,15 @@ header {
 	width: 100%;
 	z-index: 1000;
 	color: white;
+	bottom: 4rem;
 	font-size: 2rem;
+}
+
+.buttons {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 3rem;
+	width: 100%;
 }
 
 .start-blur {

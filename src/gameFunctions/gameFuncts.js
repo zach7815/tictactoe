@@ -194,3 +194,23 @@ export const winStrikeThrough = (gameWin, gameBoard) => {
 		strike.classList.add('reverse-diagonal');
 	}
 };
+
+export const isCellOccupied = (gameboard, cellIndex) => {
+	const coordinates = {
+		1: [0, 0],
+		2: [0, 1],
+		3: [0, 2],
+		4: [1, 0],
+		5: [1, 1],
+		6: [1, 2],
+		7: [2, 0],
+		8: [2, 1],
+		9: [2, 2],
+	};
+
+	const position = coordinates[cellIndex];
+
+	if (gameboard[position[0]][position[1]] === null) {
+		return false;
+	} else return true;
+};

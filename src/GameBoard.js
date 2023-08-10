@@ -6,7 +6,13 @@ import {
 	winStrikeThrough,
 } from './gameFunctions/gameFuncts.js';
 
-export const Gameboard = ({ gameBoard, handleCellClick, setRoundDone }) => {
+export const Gameboard = ({
+	gameBoard,
+	handleCellClick,
+	setRoundDone,
+	difficulty,
+	currentPlayer,
+}) => {
 	const [fillStatus, setFillStatus] = useState({ value: null });
 
 	const [gameWin, setGameWin] = useState('');
@@ -47,7 +53,9 @@ export const Gameboard = ({ gameBoard, handleCellClick, setRoundDone }) => {
 								fill={cell}
 								fillStatus={fillStatus}
 								setFillStatus={setFillStatus}
-								onClick={() => handleCellClick(rowIndex, colIndex)}
+								onClick={() =>
+									handleCellClick(rowIndex, colIndex, difficulty, currentPlayer)
+								}
 							/>
 						);
 					})}

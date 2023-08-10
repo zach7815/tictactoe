@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Button } from '@mui/material';
 import { Gameboard } from './GameBoard.js';
@@ -6,7 +6,7 @@ import { difficulties } from './gameFunctions/gameDifficultyFuncts.js';
 import { FullWidthTabs } from './MuiComponents/FullWidthTabs.js';
 
 function App() {
-	const [difficulty, setDifficulty] = useState('');
+	const [difficulty, setDifficulty] = useState('2 player mode');
 	const [gameStart, setGameStart] = useState(true);
 	const [roundDone, setRoundDone] = useState(false);
 	const [currentPlayer, setCurrentPlayer] = useState('player 1');
@@ -19,23 +19,31 @@ function App() {
 
 	const handleClick = () => {
 		setGameStart(false);
+		console.log(difficulty);
 		setGameBoardInteractive(true);
 	};
 
-	function handleCellClick(row, col) {
+	function handleCellClick(row, col, level, currentPlayer) {
+		console.log(level);
+		console.log(currentPlayer);
 		if (!gameBoardInteractive) {
-			return; // Exit early if the game board is not interactive
+			return;
 		} else if (roundDone === true) {
 			return;
 		}
 
-		// update the gameBoard state with the new fill value
 		const newGameBoard = [...gameBoard];
 		newGameBoard[row][col] = currentPlayer === 'player 1' ? 'Rocket' : 'Alien';
 		setGameBoard(newGameBoard);
-		// switch to the next player's turn
 		setCurrentPlayer(currentPlayer === 'player 1' ? 'player 2' : 'player 1');
 	}
+
+	useEffect(() => {
+		if (difficulty !== '2 player mode' && currentPlayer === 'player 2') {
+			setGameBoardInteractive(false);
+			console.log("It is player 2's move be patient");
+		}
+	}, [setGameBoardInteractive, difficulty, currentPlayer]);
 
 	return (
 		<>
@@ -52,6 +60,8 @@ function App() {
 						handleCellClick={handleCellClick}
 						disabled={!gameBoardInteractive}
 						setRoundDone={setRoundDone}
+						difficulty={difficulty}
+						currentPlayer={currentPlayer}
 					/>
 					<div className='strike hidden'> </div>
 				</div>

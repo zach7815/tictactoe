@@ -7,6 +7,7 @@ export const FullWidthTabs = ({ difficulties, setDifficulty }) => {
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue);
+		console.log(difficulties[newValue].difficulty);
 		setDifficulty(difficulties[newValue].difficulty);
 	};
 
@@ -22,10 +23,11 @@ export const FullWidthTabs = ({ difficulties, setDifficulty }) => {
 			<div className='buttons'>
 				<Box
 					sx={{
-						width: '28%',
+						width: '35%',
 						height: 'fit-content',
 						backgroundColor: 'primary.dark',
 						fontSize: '1.5rem',
+						padding: '1rem',
 					}}
 				>
 					<AppBar position='static'>
