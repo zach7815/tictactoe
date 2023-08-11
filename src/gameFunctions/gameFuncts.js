@@ -195,22 +195,22 @@ export const winStrikeThrough = (gameWin, gameBoard) => {
 	}
 };
 
-export const isCellOccupied = (gameboard, cellIndex) => {
-	const coordinates = {
-		1: [0, 0],
-		2: [0, 1],
-		3: [0, 2],
-		4: [1, 0],
-		5: [1, 1],
-		6: [1, 2],
-		7: [2, 0],
-		8: [2, 1],
-		9: [2, 2],
-	};
-
-	const position = coordinates[cellIndex];
-
-	if (gameboard[position[0]][position[1]] === null) {
-		return false;
-	} else return true;
+export const isCellOccupied = (gameboard, cellIndex, coordinates) => {
+	console.log(typeof cellIndex);
+	console.log(coordinates);
+	const position = coordinates.get(cellIndex);
+	console.log(position);
+	return gameboard[position[0]][position[1]] !== null;
 };
+
+export const coordinates = new Map([
+	[0, [0, 0]],
+	[1, [0, 1]],
+	[2, [0, 2]],
+	[3, [1, 0]],
+	[4, [1, 1]],
+	[5, [1, 2]],
+	[6, [2, 0]],
+	[7, [2, 1]],
+	[8, [2, 2]],
+]);

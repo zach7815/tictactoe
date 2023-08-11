@@ -4,6 +4,9 @@ import { Button } from '@mui/material';
 import { Gameboard } from './GameBoard.js';
 import { difficulties } from './gameFunctions/gameDifficultyFuncts.js';
 import { FullWidthTabs } from './MuiComponents/FullWidthTabs.js';
+import { generateRandomNumber } from './gameAIs/Easy.js';
+import { placeComputerMove } from './gameAIs/ManageTurns.js';
+import { isCellOccupied, coordinates } from './gameFunctions/gameFuncts.js';
 
 function App() {
 	const [difficulty, setDifficulty] = useState('2 player mode');
@@ -19,16 +22,11 @@ function App() {
 
 	const handleClick = () => {
 		setGameStart(false);
-		console.log(difficulty);
 		setGameBoardInteractive(true);
 	};
 
 	function handleCellClick(row, col, level, currentPlayer) {
-		console.log(level);
-		console.log(currentPlayer);
-		if (!gameBoardInteractive) {
-			return;
-		} else if (roundDone === true) {
+		if (!gameBoardInteractive || roundDone === true) {
 			return;
 		}
 
@@ -41,9 +39,26 @@ function App() {
 	useEffect(() => {
 		if (difficulty !== '2 player mode' && currentPlayer === 'player 2') {
 			setGameBoardInteractive(false);
-			console.log("It is player 2's move be patient");
+			let isCellFull = true;
+			let randomNumber = generateRandomNumber(0, 8);
+			let compChoice = coordinates.get(randomNumber);
+			console.log(randomNumber);
+			console.log(compChoice);
+			isCellFull = isCellOccupied(gameBoard, randomNumber, coordinates);
+			console.log(isCellFull);
+
+			while (isCellFull) {
+				randomNumber = generateRandomNumber(0, 9);
+				console.log(typeof randomNumber);
+				compChoice = coordinates[randomNumber];
+				console.log(compChoice);
+				isCellFull = isCellOccupied(gameBoard, randomNumber, compChoice);
+			}
+
+			let newGameBoard = placeComputerMove(gameBoard, compChoice);
+			console.log(newGameBoard);
 		}
-	}, [setGameBoardInteractive, difficulty, currentPlayer]);
+	}, [setGameBoardInteractive, difficulty, currentPlayer, gameBoard]);
 
 	return (
 		<>
