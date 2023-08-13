@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import GameContext from './GameContext.js';
+import GameContext from '../context/GameContext.js';
 
 export const Tile = ({ fill, setFillStatus, id, rowIndex, colIndex }) => {
 	const { handleCellClick } = useContext(GameContext);

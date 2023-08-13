@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './css/App.css';
 import { Button } from '@mui/material';
-import { Gameboard } from './GameBoard.js';
+import { Gameboard } from './components/GameBoard.js';
 import { difficulties } from './gameFunctions/gameDifficulties.js';
 import { FullWidthTabs } from './MuiComponents/FullWidthTabs.js';
 import { generateRandomNumber, handleEasyAi } from './gameAIs/Easy.js';
 
-import GameContext from './GameContext.js';
+import GameContext from './context/GameContext.js';
 
 function App() {
 	const [difficulty, setDifficulty] = useState('2 player mode');
