@@ -1,6 +1,9 @@
-import { placeComputerMove } from './ManageTurns.js';
+import {
+	placeComputerMove,
+	createAvailableMovesArray,
+} from './ManageAIMoves.js';
 
-const CompFirstTurn = [
+const compFirstTurn = [
 	['Rocket', null, null],
 	[null, null, null],
 	[null, null, null],
@@ -21,6 +24,12 @@ const compFourthTurn = [
 	['Alien', 'Rocket', 'Rocket'],
 	['Alien', 'Alien', 'Rocket'],
 	['Rocket', null, null],
+];
+
+const alienReverseDiagonalWin = [
+	[null, null, 'Alien'],
+	[null, 'Alien', null],
+	['Alien', null, null],
 ];
 
 // coordinates
@@ -55,26 +64,50 @@ const expectedFourthResult = [
 	['Rocket', null, 'Alien'],
 ];
 
-test(`placeCompTurn returns ${expectedFirstResult} for compFirstTurn`, () => {
-	expect(placeComputerMove(CompFirstTurn, firstMoveCoord)).toEqual(
-		expectedFirstResult,
-	);
+// ...
+
+test('placeCompTurn returns expected result for compFirstTurn', () => {
+	const result = placeComputerMove(compFirstTurn, firstMoveCoord);
+	expect(result).toEqual(expectedFirstResult);
 });
 
-test(`placeCompTurn returns ${expectedSecondResult} for compSecondTurn`, () => {
-	expect(placeComputerMove(compSecondTurn, secondMoveCoord)).toEqual(
-		expectedSecondResult,
-	);
+test('placeCompTurn returns expected result for compSecondTurn', () => {
+	const result = placeComputerMove(compSecondTurn, secondMoveCoord);
+	expect(result).toEqual(expectedSecondResult);
 });
 
-test(`placeCompTurn returns ${expectedThirdResult} for compThirdTurn`, () => {
-	expect(placeComputerMove(compThirdTurn, thirdMoveCoord)).toEqual(
-		expectedThirdResult,
-	);
+test('placeCompTurn returns expected result for compThirdTurn', () => {
+	const result = placeComputerMove(compThirdTurn, thirdMoveCoord);
+	expect(result).toEqual(expectedThirdResult);
 });
 
-test(`placeCompTurn returns ${expectedFourthResult} for compFourthTurn`, () => {
-	expect(placeComputerMove(compFourthTurn, fourthMoveCoord)).toEqual(
-		expectedFourthResult,
-	);
+test('placeCompTurn returns expected result for compFourthTurn', () => {
+	const result = placeComputerMove(compFourthTurn, fourthMoveCoord);
+	expect(result).toEqual(expectedFourthResult);
+});
+
+// tests for createAvailableMovesArray function
+test('createAvailableMovesArray returns expected result for compFirstTurn', () => {
+	const availableMoves = createAvailableMovesArray(compFirstTurn);
+	expect(availableMoves).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+});
+
+test('createAvailableMovesArray returns expected result for compSecondTurn', () => {
+	const availableMoves = createAvailableMovesArray(compSecondTurn);
+	expect(availableMoves).toEqual([3, 4, 5, 6, 7, 8]);
+});
+
+test('createAvailableMovesArray returns expected result for compThirdTurn', () => {
+	const availableMoves = createAvailableMovesArray(compThirdTurn);
+	expect(availableMoves).toEqual([4, 5, 7, 8]);
+});
+
+test('createAvailableMovesArray returns expected result for compFourthTurn', () => {
+	const availableMoves = createAvailableMovesArray(compFourthTurn);
+	expect(availableMoves).toEqual([7, 8]);
+});
+
+test('createAvailableMovesArray returns expected result for alienReverseDiagonalWin', () => {
+	const availableMoves = createAvailableMovesArray(alienReverseDiagonalWin);
+	expect(availableMoves).toEqual([0, 1, 3, 5, 7, 8]);
 });

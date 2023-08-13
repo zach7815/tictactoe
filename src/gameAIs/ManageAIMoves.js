@@ -1,5 +1,5 @@
 export const placeComputerMove = (gameboard, coordinates) => {
-	const newGameBoard = [...gameboard];
+	const newGameBoard = gameboard.map((row) => [...row]);
 	newGameBoard[coordinates[0]][coordinates[1]] = 'Alien';
 	return newGameBoard;
 };
@@ -26,7 +26,7 @@ export const createAvailableMovesArray = (gameboard) => {
 	const availableMoves = [];
 
 	for (let i = 0; i < gameboard.length; i++) {
-		let row = gameboard[i];
+		const row = gameboard[i];
 		for (let j = 0; j < row.length; j++) {
 			if (row[j] === null) {
 				const index = i * row.length + j;
@@ -34,6 +34,7 @@ export const createAvailableMovesArray = (gameboard) => {
 			}
 		}
 	}
+
 	return availableMoves;
 };
 
