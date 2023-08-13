@@ -7,8 +7,6 @@ import {
 	isTurnStillPossible,
 	findHorizontalWin,
 	findVerticalWin,
-	isCellOccupied,
-	coordinates,
 } from './gameFuncts.js';
 
 import pkg from '@jest/globals';
@@ -282,24 +280,4 @@ test('findVertical returns -1 for drawCase', () => {
 });
 test('findVertical returns -1 for drawCase2', () => {
 	expect(findVerticalWin(drawCase2)).toBe(-1);
-});
-
-// isCellOccupied
-test('isCellOccupied returns true for drawCase2', () => {
-	expect(isCellOccupied(drawCase2, 1, coordinates)).toBe(true);
-});
-test('isCellOccupied returns falsefor rocketHorizontalWin', () => {
-	expect(isCellOccupied(rocketHorizontalWin, 4, coordinates)).toBe(false);
-});
-
-test('isCellOccupied returns false for alienDiagonalWin', () => {
-	expect(isCellOccupied(alienDiagonalWin, 2, coordinates)).toBe(false);
-});
-
-test('isCellOccupied returns true for alienDiagonalWin', () => {
-	expect(isCellOccupied(rocketReverseDiagonalWin, 7, coordinates)).toBe(true);
-});
-
-test('isCellOccupied returns false for alienDiagonalWin last cell', () => {
-	expect(isCellOccupied(rocketReverseDiagonalWin, 9, coordinates)).toBe(false);
 });

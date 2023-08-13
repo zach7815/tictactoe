@@ -1,4 +1,9 @@
-export const Tile = ({ fill, onClick, setFillStatus, id }) => {
+import React, { useContext } from 'react';
+import GameContext from './GameContext.js';
+
+export const Tile = ({ fill, setFillStatus, id, rowIndex, colIndex }) => {
+	const { handleCellClick } = useContext(GameContext);
+
 	const playerIcons = {
 		Rocket: '🚀',
 		Alien: '🛸',
@@ -6,7 +11,7 @@ export const Tile = ({ fill, onClick, setFillStatus, id }) => {
 
 	function handleTileClick() {
 		setFillStatus(playerIcons[fill]);
-		onClick();
+		handleCellClick(rowIndex, colIndex);
 	}
 
 	return (

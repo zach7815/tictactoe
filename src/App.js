@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Button } from '@mui/material';
 import { Gameboard } from './GameBoard.js';
-import { difficulties } from './gameFunctions/gameDifficultyFuncts.js';
+import { difficulties } from './gameFunctions/gameDifficulties.js';
 import { FullWidthTabs } from './MuiComponents/FullWidthTabs.js';
-import { generateRandomNumber } from './gameAIs/Easy.js';
-import { placeComputerMove } from './gameAIs/ManageTurns.js';
-import { isCellOccupied, coordinates } from './gameFunctions/gameFuncts.js';
+import { generateRandomNumber, handleEasyAi } from './gameAIs/Easy.js';
+
+import GameContext from './GameContext.js';
 
 function App() {
 	const [difficulty, setDifficulty] = useState('2 player mode');
@@ -25,7 +25,7 @@ function App() {
 		setGameBoardInteractive(true);
 	};
 
-	function handleCellClick(row, col, level, currentPlayer) {
+	function handleCellClick(row, col) {
 		if (!gameBoardInteractive || roundDone === true) {
 			return;
 		}
@@ -37,28 +37,31 @@ function App() {
 	}
 
 	useEffect(() => {
-		if (difficulty !== '2 player mode' && currentPlayer === 'player 2') {
-			setGameBoardInteractive(false);
-			let isCellFull = true;
-			let randomNumber = generateRandomNumber(0, 8);
-			let compChoice = coordinates.get(randomNumber);
-			console.log(randomNumber);
-			console.log(compChoice);
-			isCellFull = isCellOccupied(gameBoard, randomNumber, coordinates);
-			console.log(isCellFull);
-
-			while (isCellFull) {
-				randomNumber = generateRandomNumber(0, 9);
-				console.log(typeof randomNumber);
-				compChoice = coordinates[randomNumber];
-				console.log(compChoice);
-				isCellFull = isCellOccupied(gameBoard, randomNumber, compChoice);
+		if (difficulty !== '2 player Mode') {
+			switch (difficulty) {
+				case 'Easy':
+					if (currentPlayer === 'player 2') {
+						setGameBoardInteractive(false);
+						console.log('Easy Mode chosen');
+					}
+					break;
+				case 'Intermediate':
+					if (currentPlayer === 'player 2') {
+						setGameBoardInteractive(false);
+						console.log('Intermediate Mode chosen');
+					}
+					break;
+				case 'Impossible':
+					if (currentPlayer === 'player 2') {
+						setGameBoardInteractive(false);
+						console.log('Impossible Mode chosen');
+					}
+					break;
+				default:
+					return;
 			}
-
-			let newGameBoard = placeComputerMove(gameBoard, compChoice);
-			console.log(newGameBoard);
 		}
-	}, [setGameBoardInteractive, difficulty, currentPlayer, gameBoard]);
+	}, [difficulty, currentPlayer]);
 
 	return (
 		<>
@@ -70,14 +73,14 @@ function App() {
 
 			<div className='container'>
 				<div className='game-board-wrapper'>
-					<Gameboard
-						gameBoard={gameBoard}
-						handleCellClick={handleCellClick}
-						disabled={!gameBoardInteractive}
-						setRoundDone={setRoundDone}
-						difficulty={difficulty}
-						currentPlayer={currentPlayer}
-					/>
+					<GameContext.Provider value={{ handleCellClick }}>
+						<Gameboard
+							gameBoard={gameBoard}
+							handleCellClick={handleCellClick}
+							disabled={!gameBoardInteractive}
+							setRoundDone={setRoundDone}
+						/>
+					</GameContext.Provider>
 					<div className='strike hidden'> </div>
 				</div>
 			</div>
