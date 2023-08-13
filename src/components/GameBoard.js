@@ -4,7 +4,7 @@ import {
 	handleWin,
 	isTurnStillPossible,
 	winStrikeThrough,
-} from './gameFunctions/gameFuncts.js';
+} from '../gameFunctions/gameFuncts.js';
 
 export const Gameboard = ({ gameBoard, handleCellClick, setRoundDone }) => {
 	const [fillStatus, setFillStatus] = useState({ value: null });
