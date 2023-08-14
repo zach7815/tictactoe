@@ -3,24 +3,16 @@ export const generateRandomNumber = (min, max) => {
 };
 
 export const handleEasyAi = (
-	gameBoard,
-	randomNumber,
-	coordinates,
-	CellChecker,
-	isRoundDone,
+	availableMoves,
+	randomNumberGenerator,
+	coordinatesObject,
 ) => {
-	if (isRoundDone) {
-		return;
-	} else {
-		let compChoice = coordinates.get(randomNumber);
-		console.log(`compChoice is: ${compChoice}`);
-		let isCellFull = CellChecker(gameBoard, randomNumber, coordinates);
-		while (isCellFull === true) {
-			compChoice = coordinates.get(randomNumber);
-			isCellFull = CellChecker(gameBoard, randomNumber, coordinates);
-		}
+	const randomIndex = randomNumberGenerator(0, availableMoves.length - 1);
+	console.log(randomIndex);
+	const chosenIndex = availableMoves[randomIndex];
+	console.log(chosenIndex);
 
-		console.log(`compChoice is ${compChoice}`);
-		return compChoice;
-	}
+	const compChoice = coordinatesObject.get(chosenIndex);
+
+	return compChoice;
 };
