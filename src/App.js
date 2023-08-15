@@ -118,7 +118,7 @@ function App() {
 			roundDone !== true &&
 			gameWin.winner !== 'Rocket'
 		) {
-			const timeout = setTimeout(() => {
+			timeoutRef.current = setTimeout(() => {
 				let compChoice = handleEasyAi(
 					availableMoves,
 					generateRandomNumber,
@@ -132,9 +132,9 @@ function App() {
 				setCurrentPlayer('player 1');
 				setGameBoardInteractive(true);
 			}, 3000);
-
-			return () => clearTimeout(timeout);
 		}
+
+		return () => clearTimeout(timeoutRef.current);
 	}, [
 		difficulty,
 		currentPlayer,
