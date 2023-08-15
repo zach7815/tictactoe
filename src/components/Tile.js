@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import GameContext from '../context/GameContext.js';
 
 export const Tile = ({ fill, setFillStatus, id, rowIndex, colIndex }) => {
-	const { handleCellClick } = useContext(GameContext);
+	const { memoizedHandleCellClick } = useContext(GameContext);
 
 	const playerIcons = {
 		Rocket: '🚀',
@@ -11,7 +11,7 @@ export const Tile = ({ fill, setFillStatus, id, rowIndex, colIndex }) => {
 
 	function handleTileClick() {
 		setFillStatus(playerIcons[fill]);
-		handleCellClick(rowIndex, colIndex);
+		memoizedHandleCellClick(rowIndex, colIndex);
 	}
 
 	return (

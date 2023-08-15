@@ -1,7 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+	useState,
+	useEffect,
+	useRef,
+	useCallback,
+	useMemo,
+} from 'react';
 import './css/App.css';
 import { Button } from '@mui/material';
 import { Gameboard } from './components/GameBoard.js';
+import { WinState } from './components/WinState.js';
 import { difficulties } from './gameFunctions/gameDifficulties.js';
 import { FullWidthTabs } from './MuiComponents/FullWidthTabs.js';
 import { generateRandomNumber, handleEasyAi } from './gameAIs/Easy.js';
@@ -10,7 +17,11 @@ import {
 	createAvailableMovesArray,
 	placeComputerMove,
 } from './gameAIs/ManageAIMoves.js';
-
+import {
+	handleWin,
+	isTurnStillPossible,
+	winStrikeThrough,
+} from './gameFunctions/gameFuncts.js';
 import GameContext from './context/GameContext.js';
 
 function App() {
@@ -28,51 +39,92 @@ function App() {
 	]);
 	const [gameBoardInteractive, setGameBoardInteractive] = useState(false);
 	const timeoutRef = useRef(null);
+	const [areMovesPossible, setAreMovesPossible] = useState(true);
+	const [gameWin, setGameWin] = useState({ direction: '', winner: 'Draw' });
+
+	const handleEndGame = useCallback(() => {
+		if (gameWin.winner === 'Rocket') {
+			console.log('Congrats you won');
+		} else if (gameWin.winner === 'Alien') {
+			console.log('Aliens have won');
+		} else if (gameWin.winner === 'Draw' && !areMovesPossible) {
+			console.log("It's a draw");
+		} else {
+			console.log('The game is still up for grabs');
+		}
+	}, [areMovesPossible, gameWin.winner]);
+
 	const handleClick = () => {
 		setGameStart(false);
 		setGameBoardInteractive(true);
 	};
 
-	function handleCellClick(row, col) {
-		if (!gameBoardInteractive || roundDone) {
-			return;
-		}
+	useEffect(() => {
+		setAreMovesPossible(isTurnStillPossible(gameBoard));
+		const winResult = handleWin(gameBoard);
+		setGameWin(winResult);
 
-		const cellValue = gameBoard[row][col];
-		if (cellValue === null) {
-			const newGameBoard = [...gameBoard];
-			newGameBoard[row][col] =
-				currentPlayer === 'player 1' ? 'Rocket' : 'Alien';
-			setGameBoard(newGameBoard);
-			setAvailableMoves(createAvailableMovesArray(gameBoard));
-			setCurrentPlayer(currentPlayer === 'player 1' ? 'player 2' : 'player 1');
+		if (winResult.winner !== 'Draw') {
+			setRoundDone(true);
+			handleEndGame();
+			winStrikeThrough(winResult, gameBoard);
 		}
-	}
+	}, [gameBoard, handleEndGame, areMovesPossible, setRoundDone, roundDone]);
+
+	const memoizedHandleCellClick = useMemo(() => {
+		return function handleCellClick(row, col) {
+			if (!gameBoardInteractive || roundDone) {
+				return;
+			}
+
+			const cellValue = gameBoard[row][col];
+			if (cellValue === null) {
+				const newGameBoard = [...gameBoard];
+				newGameBoard[row][col] =
+					currentPlayer === 'player 1' ? 'Rocket' : 'Alien';
+				setGameBoard(newGameBoard);
+				setAvailableMoves(createAvailableMovesArray(gameBoard));
+				setCurrentPlayer(
+					currentPlayer === 'player 1' ? 'player 2' : 'player 1',
+				);
+			}
+		};
+	}, [
+		gameBoardInteractive,
+		roundDone,
+		gameBoard,
+		currentPlayer,
+		setGameBoard,
+		setAvailableMoves,
+		setCurrentPlayer,
+	]);
+	useEffect(() => {
+		if (
+			difficulty === 'Easy' &&
+			currentPlayer === 'player 2' &&
+			areMovesPossible === true &&
+			roundDone !== true &&
+			gameWin.winner !== 'Rocket'
+		) {
+			setGameBoardInteractive(false);
+		}
+	}, [difficulty, currentPlayer, areMovesPossible, roundDone, gameWin.winner]);
 
 	useEffect(() => {
-		if (roundDone === true) {
-			return;
-		}
-
-		if (difficulty === 'Easy' && currentPlayer === 'player 2') {
-			console.log(availableMoves);
-			console.log(roundDone);
-
-			setGameBoardInteractive(false);
-
-			// Generate the computer's move after a delay
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current);
-			}
-			timeoutRef.current = setTimeout(() => {
-				// Update available moves when game board changes
-
+		if (
+			difficulty === 'Easy' &&
+			currentPlayer === 'player 2' &&
+			areMovesPossible === true &&
+			roundDone !== true &&
+			gameWin.winner !== 'Rocket'
+		) {
+			const timeout = setTimeout(() => {
 				let compChoice = handleEasyAi(
 					availableMoves,
 					generateRandomNumber,
 					coordinatesMap,
 				);
-				console.log(compChoice);
+
 				setGameBoard((prevGameBoard) =>
 					placeComputerMove(prevGameBoard, compChoice),
 				);
@@ -80,8 +132,18 @@ function App() {
 				setCurrentPlayer('player 1');
 				setGameBoardInteractive(true);
 			}, 3000);
+
+			return () => clearTimeout(timeout);
 		}
-	}, [difficulty, currentPlayer, gameBoard, availableMoves, roundDone]);
+	}, [
+		difficulty,
+		currentPlayer,
+		gameBoard,
+		availableMoves,
+		roundDone,
+		areMovesPossible,
+		gameWin,
+	]);
 
 	return (
 		<>
@@ -93,10 +155,10 @@ function App() {
 
 			<div className='container'>
 				<div className='game-board-wrapper'>
-					<GameContext.Provider value={{ handleCellClick }}>
+					<GameContext.Provider value={{ memoizedHandleCellClick }}>
 						<Gameboard
 							gameBoard={gameBoard}
-							handleCellClick={handleCellClick}
+							handleCellClick={memoizedHandleCellClick}
 							disabled={!gameBoardInteractive}
 							setRoundDone={setRoundDone}
 						/>
@@ -104,6 +166,7 @@ function App() {
 					<div className='strike hidden'> </div>
 				</div>
 			</div>
+			{gameWin.winner === 'Rocket' && <WinState />}
 
 			{gameStart && <div className='start-blur'></div>}
 			{gameStart && (
