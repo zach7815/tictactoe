@@ -28,7 +28,7 @@ import GameContext from './context/GameContext.js';
 import { makeIntermediateAIMove } from './gameAIs/Intermediate.js';
 
 function App() {
-	const [difficulty, setDifficulty] = useState('Easy');
+	const [difficulty, setDifficulty] = useState('2 player mode');
 	const [gameStart, setGameStart] = useState(true);
 	const [roundDone, setRoundDone] = useState(false);
 	const [currentPlayer, setCurrentPlayer] = useState('player 1');
@@ -58,6 +58,7 @@ function App() {
 	}, [areMovesPossible, gameWin.winner]);
 
 	const handleClick = () => {
+		console.log(difficulty);
 		setGameStart(false);
 		setGameBoardInteractive(true);
 	};
@@ -101,19 +102,6 @@ function App() {
 		setAvailableMoves,
 		setCurrentPlayer,
 	]);
-
-	// controls update to GameWinner and helps prevent Ai additional move when user Wins.
-	// useEffect(() => {
-	// 	if (
-	// 		difficulty === 'Easy' &&
-	// 		currentPlayer === 'player 2' &&
-	// 		areMovesPossible === true &&
-	// 		roundDone !== true &&
-	// 		gameWin.winner !== 'Rocket'
-	// 	) {
-	// 		setGameBoardInteractive(false);
-	// 	}
-	// }, [difficulty, currentPlayer, areMovesPossible, roundDone, gameWin.winner]);
 
 	useEffect(() => {
 		if (
@@ -211,7 +199,9 @@ function App() {
 				</div>
 			</div>
 			{gameWin.winner === 'Rocket' && <WinState />}
-			{gameWin.winner === 'Alien' && <LoseState />}
+			{gameWin.winner === 'Alien' && difficulty === '2 player mode' && (
+				<LoseState />
+			)}
 
 			{gameStart && <div className='start-blur'></div>}
 			{gameStart && (

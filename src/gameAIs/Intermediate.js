@@ -7,6 +7,19 @@ export function makeIntermediateAIMove(
 	generateRandomNumber,
 	coordinatesMap,
 ) {
+	const winningMove = findWinningMove(gameBoard);
+	console.log(winningMove);
+	const blockingMove = findBlockingMove(gameBoard);
+	console.log(blockingMove);
+
+	if (winningMove !== null) {
+		return winningMove;
+	}
+
+	if (blockingMove !== null) {
+		return blockingMove;
+	}
+
 	// Check if any corner positions are available
 	const corners = [
 		[0, 0],
@@ -18,7 +31,6 @@ export function makeIntermediateAIMove(
 	const availableCorners = corners.filter(
 		(corner) => gameBoard[corner[0]][corner[1]] === null,
 	);
-	console.log(availableCorners);
 
 	if (availableCorners.length > 0) {
 		const randomCorner =
@@ -38,7 +50,85 @@ export function makeIntermediateAIMove(
 	const randomAvailablePosition = availablePositions[randomIndex];
 	const position = coordinatesMap.get(randomAvailablePosition);
 
-	return position || 'no moves available';
+	return position;
+}
+
+// Helper function to check if a player has won
+function checkWinningMove(gameBoard, player) {
+	const boardSize = gameBoard.length;
+
+	// Check rows
+	for (let row = 0; row < boardSize; row++) {
+		let count = 0;
+		let emptyCell = null;
+		for (let col = 0; col < boardSize; col++) {
+			if (gameBoard[row][col] === player) {
+				count++;
+			} else if (gameBoard[row][col] === null) {
+				emptyCell = [row, col];
+			}
+		}
+		if (count === boardSize - 1 && emptyCell) {
+			return emptyCell;
+		}
+	}
+
+	// Check columns
+	for (let col = 0; col < boardSize; col++) {
+		let count = 0;
+		let emptyCell = null;
+		for (let row = 0; row < boardSize; row++) {
+			if (gameBoard[row][col] === player) {
+				count++;
+			} else if (gameBoard[row][col] === null) {
+				emptyCell = [row, col];
+			}
+		}
+		if (count === boardSize - 1 && emptyCell) {
+			return emptyCell;
+		}
+	}
+
+	// Check diagonals
+	let count = 0;
+	let emptyCell = null;
+	for (let i = 0; i < boardSize; i++) {
+		if (gameBoard[i][i] === player) {
+			count++;
+		} else if (gameBoard[i][i] === null) {
+			emptyCell = [i, i];
+		}
+	}
+	if (count === boardSize - 1 && emptyCell) {
+		return emptyCell;
+	}
+
+	count = 0;
+	emptyCell = null;
+	for (let i = 0; i < boardSize; i++) {
+		if (gameBoard[i][boardSize - 1 - i] === player) {
+			count++;
+		} else if (gameBoard[i][boardSize - 1 - i] === null) {
+			emptyCell = [i, boardSize - 1 - i];
+		}
+	}
+	if (count === boardSize - 1 && emptyCell) {
+		return emptyCell;
+	}
+
+	return null;
+}
+
+// Helper function to find a winning move
+function findWinningMove(gameBoard) {
+	const winningMove = checkWinningMove(gameBoard, 'Alien');
+	return winningMove;
+}
+
+// Helper function to find a blocking move
+function findBlockingMove(gameBoard) {
+	const blockingMove = checkWinningMove(gameBoard, 'Rocket');
+	return blockingMove;
 }
 
 const gameBoard = [
