@@ -1,5 +1,5 @@
 import React from 'react';
-import Confetti from './Confetti.js';
+import Confetti from './WinConfetti.js';
 
 export const WinState = () => {
 	return (

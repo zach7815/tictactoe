@@ -12,6 +12,7 @@ import { WinState } from './components/WinState.js';
 import { difficulties } from './gameFunctions/gameDifficulties.js';
 import { FullWidthTabs } from './MuiComponents/FullWidthTabs.js';
 import { generateRandomNumber, handleEasyAi } from './gameAIs/Easy.js';
+import { LoseState } from './components/LoseState.js';
 import {
 	coordinatesMap,
 	createAvailableMovesArray,
@@ -23,6 +24,8 @@ import {
 	winStrikeThrough,
 } from './gameFunctions/gameFuncts.js';
 import GameContext from './context/GameContext.js';
+
+import { makeIntermediateAIMove } from './gameAIs/Intermediate.js';
 
 function App() {
 	const [difficulty, setDifficulty] = useState('Easy');
@@ -98,17 +101,19 @@ function App() {
 		setAvailableMoves,
 		setCurrentPlayer,
 	]);
-	useEffect(() => {
-		if (
-			difficulty === 'Easy' &&
-			currentPlayer === 'player 2' &&
-			areMovesPossible === true &&
-			roundDone !== true &&
-			gameWin.winner !== 'Rocket'
-		) {
-			setGameBoardInteractive(false);
-		}
-	}, [difficulty, currentPlayer, areMovesPossible, roundDone, gameWin.winner]);
+
+	// controls update to GameWinner and helps prevent Ai additional move when user Wins.
+	// useEffect(() => {
+	// 	if (
+	// 		difficulty === 'Easy' &&
+	// 		currentPlayer === 'player 2' &&
+	// 		areMovesPossible === true &&
+	// 		roundDone !== true &&
+	// 		gameWin.winner !== 'Rocket'
+	// 	) {
+	// 		setGameBoardInteractive(false);
+	// 	}
+	// }, [difficulty, currentPlayer, areMovesPossible, roundDone, gameWin.winner]);
 
 	useEffect(() => {
 		if (
@@ -118,12 +123,51 @@ function App() {
 			roundDone !== true &&
 			gameWin.winner !== 'Rocket'
 		) {
+			setGameBoardInteractive(false);
 			timeoutRef.current = setTimeout(() => {
 				let compChoice = handleEasyAi(
 					availableMoves,
 					generateRandomNumber,
 					coordinatesMap,
 				);
+
+				setGameBoard((prevGameBoard) =>
+					placeComputerMove(prevGameBoard, compChoice),
+				);
+
+				setCurrentPlayer('player 1');
+				setGameBoardInteractive(true);
+			}, 3000);
+		}
+
+		return () => clearTimeout(timeoutRef.current);
+	}, [
+		difficulty,
+		currentPlayer,
+		gameBoard,
+		availableMoves,
+		roundDone,
+		areMovesPossible,
+		gameWin,
+	]);
+
+	useEffect(() => {
+		if (
+			difficulty === 'Intermediate' &&
+			currentPlayer === 'player 2' &&
+			areMovesPossible === true &&
+			roundDone !== true &&
+			gameWin.winner !== 'Rocket'
+		) {
+			setGameBoardInteractive(false);
+			timeoutRef.current = setTimeout(() => {
+				let compChoice = makeIntermediateAIMove(
+					gameBoard,
+					createAvailableMovesArray,
+					generateRandomNumber,
+					coordinatesMap,
+				);
+				console.log(compChoice);
 
 				setGameBoard((prevGameBoard) =>
 					placeComputerMove(prevGameBoard, compChoice),
@@ -167,6 +211,7 @@ function App() {
 				</div>
 			</div>
 			{gameWin.winner === 'Rocket' && <WinState />}
+			{gameWin.winner === 'Alien' && <LoseState />}
 
 			{gameStart && <div className='start-blur'></div>}
 			{gameStart && (

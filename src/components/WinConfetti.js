@@ -19,6 +19,10 @@ export default () => {
 					ctx.lineTo(10, -10);
 					ctx.stroke();
 					ctx.closePath();
+
+					ctx.strokeStyle = '#FF0043'; // Set stroke color
+					ctx.lineWidth = 2; // Set stroke width
+					ctx.stroke();
 				}}
 			/>
 		</div>
