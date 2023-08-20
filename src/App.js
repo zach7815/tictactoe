@@ -44,24 +44,66 @@ function App() {
 	const timeoutRef = useRef(null);
 	const [areMovesPossible, setAreMovesPossible] = useState(true);
 	const [gameWin, setGameWin] = useState({ direction: '', winner: 'Draw' });
+	const [scores, setScores] = useState({ Rockets: 0, Draws: 0, Aliens: 0 });
 
 	const handleEndGame = useCallback(() => {
 		if (gameWin.winner === 'Rocket') {
-			console.log('Congrats you won');
 		} else if (gameWin.winner === 'Alien') {
-			console.log('Aliens have won');
 		} else if (gameWin.winner === 'Draw' && !areMovesPossible) {
-			console.log("It's a draw");
 		} else {
-			console.log('The game is still up for grabs');
 		}
 	}, [areMovesPossible, gameWin.winner]);
 
 	const handleClick = () => {
-		console.log(difficulty);
 		setGameStart(false);
 		setGameBoardInteractive(true);
 	};
+
+	const handleReset = () => {
+		if (gameWin.winner === 'Rocket') {
+			setScores((prevScores) => ({
+				...prevScores,
+				Rockets: prevScores.Rockets + 1,
+			}));
+		}
+		if (gameWin.winner === 'Alien') {
+			setScores((prevScores) => ({
+				...prevScores,
+				Aliens: prevScores.Aliens + 1,
+			}));
+		} else if (gameWin.winner === 'Draw') {
+			setScores((prevScores) => ({
+				...prevScores,
+				Draws: prevScores.Draws + 1,
+			}));
+		}
+
+		setGameBoard([
+			[null, null, null],
+			[null, null, null],
+			[null, null, null],
+		]);
+
+		setRoundDone(false);
+		setGameStart(true);
+		setCurrentPlayer('player 1');
+
+		const strike = document.querySelector('#strike');
+		if (strike) {
+			const classList = strike.classList;
+			while (classList.length > 0) {
+				classList.remove(classList.item(0));
+			}
+			classList.add('strike', 'hidden');
+			strike.style.borderColor = 'greenyellow';
+		}
+	};
+
+	useEffect(() => {
+		if (!isTurnStillPossible(gameBoard)) {
+			setRoundDone(true);
+		}
+	}, [gameBoard]);
 
 	useEffect(() => {
 		setAreMovesPossible(isTurnStillPossible(gameBoard));
@@ -179,10 +221,16 @@ function App() {
 
 	return (
 		<>
+			<div className='background'></div>
 			<header>
 				<h1>Tic Tac Toe</h1>
 				<h4> Rockets vs Aliens</h4>
 				<h3>{currentPlayer}'s turn</h3>
+				<div className='scores'>
+					<span>Rockets: {scores.Rockets}</span>{' '}
+					<span>Draws: {scores.Draws}</span>{' '}
+					<span>Aliens: {scores.Aliens}</span>
+				</div>
 			</header>
 
 			<div className='container'>
@@ -195,7 +243,9 @@ function App() {
 							setRoundDone={setRoundDone}
 						/>
 					</GameContext.Provider>
-					<div className='strike hidden'> </div>
+					<div id='strike' className='strike hidden'>
+						{' '}
+					</div>
 				</div>
 			</div>
 			{gameWin.winner === 'Rocket' && <WinState />}
@@ -222,6 +272,16 @@ function App() {
 						Start
 					</Button>
 				</div>
+			)}
+
+			{roundDone === true ? (
+				<div className='reset'>
+					<Button variant='contained' onClick={handleReset}>
+						Play Again
+					</Button>
+				</div>
+			) : (
+				''
 			)}
 		</>
 	);

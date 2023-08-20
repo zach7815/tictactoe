@@ -21,11 +21,11 @@ export const difficulties = [
 		TabContentIndex: 33,
 	},
 
-	{
-		difficulty: 'Impossible',
-		description:
-			"Victory here is impossible, a draw is all you can hope for, I'm not kidding you won`t find a way to win",
-		TabIndex: 4,
-		TabContentIndex: 44,
-	},
+	// {
+	// 	difficulty: 'Impossible',
+	// 	description:
+	// 		"Victory here is impossible, a draw is all you can hope for, I'm not kidding you won`t find a way to win",
+	// 	TabIndex: 4,
+	// 	TabContentIndex: 44,
+	// },
 ];

@@ -4,24 +4,6 @@ export const placeComputerMove = (gameboard, coordinates) => {
 	return newGameBoard;
 };
 
-const manageGameMode = (gameBoard, gameMode) => {
-	switch (gameMode) {
-		case '2 player mode':
-			break;
-
-		case 'Easy':
-			break;
-
-		case 'Intermediate':
-			break;
-
-		case 'Impossible':
-			break;
-
-		default:
-	}
-};
-
 export const createAvailableMovesArray = (gameboard) => {
 	const availableMoves = [];
 

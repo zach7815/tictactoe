@@ -54,7 +54,7 @@ export function makeIntermediateAIMove(
 }
 
 // Helper function to check if a player has won
-function checkWinningMove(gameBoard, player) {
+export function checkWinningMove(gameBoard, player) {
 	const boardSize = gameBoard.length;
 
 	// Check rows
@@ -120,13 +120,13 @@ function checkWinningMove(gameBoard, player) {
 }
 
 // Helper function to find a winning move
-function findWinningMove(gameBoard) {
+export function findWinningMove(gameBoard) {
 	const winningMove = checkWinningMove(gameBoard, 'Alien');
 	return winningMove;
 }
 
 // Helper function to find a blocking move
-function findBlockingMove(gameBoard) {
+export function findBlockingMove(gameBoard) {
 	const blockingMove = checkWinningMove(gameBoard, 'Rocket');
 	return blockingMove;
 }

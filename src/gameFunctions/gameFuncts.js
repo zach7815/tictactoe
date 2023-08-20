@@ -144,11 +144,15 @@ export const isTurnStillPossible = (gameBoard) => {
 	let movesStillPossible = true;
 
 	for (let i = 0; i < gameBoard.length; i++) {
-		if (gameBoard[i].every((cell) => cell === 'Alien' || cell === 'Rocket')) {
+		if (gameBoard[i].some((cell) => cell === null)) {
+			movesStillPossible = true;
+			break; // Exit the loop if a null cell is found
+		} else {
 			movesStillPossible = false;
 		}
-		return movesStillPossible;
 	}
+
+	return movesStillPossible;
 };
 
 export const winStrikeThrough = (gameWin, gameBoard) => {
