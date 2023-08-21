@@ -24,12 +24,6 @@ const alienHorizontalWin = [
 	[null, null, null],
 ];
 
-const movesStillPlayayble1 = [
-	['Alien', 'Rocket', 'Alien'],
-	[null, 'Rocket', null],
-	['Rocket', 'ALien', 'Rocket'],
-];
-
 const rocketHorizontalFilledBoard = [
 	['Rocket', 'Rocket', 'Rocket'],
 	['Alien', 'Rocket', 'Alien'],
