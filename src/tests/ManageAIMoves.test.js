@@ -1,7 +1,7 @@
 import {
 	placeComputerMove,
 	createAvailableMovesArray,
-} from './ManageAIMoves.js';
+} from '../gameAIs/ManageAIMoves.js';
 
 const compFirstTurn = [
 	['Rocket', null, null],
