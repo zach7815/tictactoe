@@ -32,6 +32,7 @@ function App() {
   const [difficulty, setDifficulty] = useState('2 player mode');
   const [gameStart, setGameStart] = useState(true);
   const [roundDone, setRoundDone] = useState(false);
+  const [aiMoveMade, setAiMoveMade] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState('player 1');
   const [gameBoard, setGameBoard] = useState([
     [null, null, null],
@@ -152,7 +153,8 @@ function App() {
       currentPlayer === 'player 2' &&
       areMovesPossible === true &&
       roundDone !== true &&
-      gameWin.winner !== 'Rocket'
+      gameWin.winner !== 'Rocket' &&
+      !aiMoveMade
     ) {
       setGameBoardInteractive(false);
       timeoutRef.current = setTimeout(() => {
@@ -168,18 +170,17 @@ function App() {
 
         setCurrentPlayer('player 1');
         setGameBoardInteractive(true);
+        setAiMoveMade(true); // Mark AI move as made
       }, 3000);
     }
-
-    return () => clearTimeout(timeoutRef.current);
   }, [
-    difficulty,
     currentPlayer,
-    gameBoard,
-    availableMoves,
-    roundDone,
+    difficulty,
     areMovesPossible,
+    roundDone,
     gameWin,
+    aiMoveMade,
+    availableMoves,
   ]);
 
   useEffect(() => {
