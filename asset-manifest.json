@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/tictactoe/%20/static/css/main.49399655.css",
+    "main.js": "/tictactoe/%20/static/js/main.759af65e.js",
+    "index.html": "/tictactoe/%20/index.html",
+    "static/media/circle-scatter-haikei.svg": "/tictactoe/%20/static/media/circle-scatter-haikei.bff1653c57a464542905.svg",
+    "main.49399655.css.map": "/tictactoe/%20/static/css/main.49399655.css.map",
+    "main.759af65e.js.map": "/tictactoe/%20/static/js/main.759af65e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.49399655.css",
+    "static/js/main.759af65e.js"
+  ]
+}
