@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.css": "/zach7815.github.io/tictactoe/%20/static/css/main.1cace1c5.css",
-    "main.js": "/zach7815.github.io/tictactoe/%20/static/js/main.759af65e.js",
-    "index.html": "/zach7815.github.io/tictactoe/%20/index.html",
-    "static/media/circle-scatter-haikei.svg": "/zach7815.github.io/tictactoe/%20/static/media/circle-scatter-haikei.bff1653c57a464542905.svg",
-    "main.1cace1c5.css.map": "/zach7815.github.io/tictactoe/%20/static/css/main.1cace1c5.css.map",
-    "main.759af65e.js.map": "/zach7815.github.io/tictactoe/%20/static/js/main.759af65e.js.map"
+    "main.css": "/tictactoe/static/css/main.9535f092.css",
+    "main.js": "/tictactoe/static/js/main.6e4524eb.js",
+    "index.html": "/tictactoe/index.html",
+    "static/media/circle-scatter-haikei.svg": "/tictactoe/static/media/circle-scatter-haikei.bff1653c57a464542905.svg",
+    "main.9535f092.css.map": "/tictactoe/static/css/main.9535f092.css.map",
+    "main.6e4524eb.js.map": "/tictactoe/static/js/main.6e4524eb.js.map"
   },
   "entrypoints": [
-    "static/css/main.1cace1c5.css",
-    "static/js/main.759af65e.js"
+    "static/css/main.9535f092.css",
+    "static/js/main.6e4524eb.js"
+
   ]
 }
