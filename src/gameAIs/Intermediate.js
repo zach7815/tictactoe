@@ -1,13 +1,9 @@
-import { createAvailableMovesArray, coordinatesMap } from './ManageAIMoves.js';
-import { generateRandomNumber } from './Easy.js';
-
 export function makeIntermediateAIMove(
   gameBoard,
   createAvailableMovesArray,
   generateRandomNumber,
   coordinatesMap
 ) {
-  console.log(gameBoard);
   const winningMove = findWinningMove(gameBoard);
 
   const blockingMove = findBlockingMove(gameBoard);
@@ -130,18 +126,3 @@ export function findBlockingMove(gameBoard) {
   const blockingMove = checkWinningMove(gameBoard, 'Rocket');
   return blockingMove;
 }
-
-const gameBoard = [
-  ['Alien', 'Alien', 'Rocket'],
-  [null, 'Rocket', 'Rocket'],
-  ['Alien', 'Rocket', 'Alien'],
-];
-
-const testCase1 = makeIntermediateAIMove(
-  gameBoard,
-  createAvailableMovesArray,
-  generateRandomNumber,
-  coordinatesMap
-);
-
-console.log(testCase1);
