@@ -1,5 +1,5 @@
-
 const flatten2DArray = (matrix) => {
+  console.log(matrix);
   return matrix.flat(1);
 };
 
@@ -17,4 +17,3 @@ export const convertBoard = (matrix) => {
   const flatBoard = flatten2DArray(matrix);
   return assignIndex(flatBoard);
 };
-

@@ -24,6 +24,7 @@ import {
   winStrikeThrough,
 } from './gameFunctions/gameFuncts.js';
 import GameContext from './context/GameContext.js';
+import { handleReset } from './gameFunctions/gameStateFuncts.js';
 
 import { makeIntermediateAIMove } from './gameAIs/Intermediate.js';
 import { bestSpot } from './gameAIs/minMaxai.js';
@@ -32,7 +33,6 @@ function App() {
   const [difficulty, setDifficulty] = useState('2 player mode');
   const [gameStart, setGameStart] = useState(true);
   const [roundDone, setRoundDone] = useState(false);
-  const [aiMoveMade, setAiMoveMade] = useState(false);
   const [currentPlayer, setCurrentPlayer] = useState('player 1');
   const [gameBoard, setGameBoard] = useState([
     [null, null, null],
@@ -59,46 +59,6 @@ function App() {
   const handleClick = () => {
     setGameStart(false);
     setGameBoardInteractive(true);
-  };
-
-  const handleReset = () => {
-    if (gameWin.winner === 'Rocket') {
-      setScores((prevScores) => ({
-        ...prevScores,
-        Rockets: prevScores.Rockets + 1,
-      }));
-    }
-    if (gameWin.winner === 'Alien') {
-      setScores((prevScores) => ({
-        ...prevScores,
-        Aliens: prevScores.Aliens + 1,
-      }));
-    } else if (gameWin.winner === 'Draw') {
-      setScores((prevScores) => ({
-        ...prevScores,
-        Draws: prevScores.Draws + 1,
-      }));
-    }
-
-    setGameBoard([
-      [null, null, null],
-      [null, null, null],
-      [null, null, null],
-    ]);
-
-    setRoundDone(false);
-    setGameStart(true);
-    setCurrentPlayer('player 1');
-
-    const strike = document.querySelector('#strike');
-    if (strike) {
-      const classList = strike.classList;
-      while (classList.length > 0) {
-        classList.remove(classList.item(0));
-      }
-      classList.add('strike', 'hidden');
-      strike.style.borderColor = 'greenyellow';
-    }
   };
 
   useEffect(() => {
@@ -147,22 +107,19 @@ function App() {
     setCurrentPlayer,
   ]);
 
+  useEffect(() => {}, [difficulty]);
+
   useEffect(() => {
     if (
       difficulty === 'Easy' &&
       currentPlayer === 'player 2' &&
       areMovesPossible === true &&
       roundDone !== true &&
-      gameWin.winner !== 'Rocket' &&
-      !aiMoveMade
+      gameWin.winner !== 'Rocket'
     ) {
       setGameBoardInteractive(false);
       timeoutRef.current = setTimeout(() => {
-        let compChoice = handleEasyAi(
-          availableMoves,
-          generateRandomNumber,
-          coordinatesMap
-        );
+        let compChoice = handleEasyAi(gameBoard);
 
         setGameBoard((prevGameBoard) =>
           placeComputerMove(prevGameBoard, compChoice)
@@ -170,7 +127,6 @@ function App() {
 
         setCurrentPlayer('player 1');
         setGameBoardInteractive(true);
-        setAiMoveMade(true); // Mark AI move as made
       }, 3000);
     }
   }, [
@@ -179,8 +135,8 @@ function App() {
     areMovesPossible,
     roundDone,
     gameWin,
-    aiMoveMade,
     availableMoves,
+    gameBoard,
   ]);
 
   useEffect(() => {
@@ -199,48 +155,9 @@ function App() {
           generateRandomNumber,
           coordinatesMap
         );
-        console.log(compChoice);
-
         setGameBoard((prevGameBoard) =>
           placeComputerMove(prevGameBoard, compChoice)
         );
-
-        setCurrentPlayer('player 1');
-        setGameBoardInteractive(true);
-      }, 3000);
-    }
-
-    return () => clearTimeout(timeoutRef.current);
-  }, [
-    difficulty,
-    currentPlayer,
-    gameBoard,
-    availableMoves,
-    roundDone,
-    areMovesPossible,
-    gameWin,
-  ]);
-
-  useEffect(() => {
-    if (
-      difficulty === 'Easy' &&
-      currentPlayer === 'player 2' &&
-      areMovesPossible === true &&
-      roundDone !== true &&
-      gameWin.winner !== 'Rocket'
-    ) {
-      setGameBoardInteractive(false);
-      timeoutRef.current = setTimeout(() => {
-        let compChoice = handleEasyAi(
-          availableMoves,
-          generateRandomNumber,
-          coordinatesMap
-        );
-
-        setGameBoard((prevGameBoard) =>
-          placeComputerMove(prevGameBoard, compChoice)
-        );
-
         setCurrentPlayer('player 1');
         setGameBoardInteractive(true);
       }, 3000);
@@ -267,8 +184,7 @@ function App() {
     ) {
       setGameBoardInteractive(false);
       timeoutRef.current = setTimeout(() => {
-        let compChoice = bestSpot(gameBoard, 'Alien');
-        console.log(compChoice);
+        let compChoice = bestSpot(gameBoard);
 
         setGameBoard((prevGameBoard) =>
           placeComputerMove(prevGameBoard, compChoice)
@@ -347,7 +263,20 @@ function App() {
 
       {roundDone === true ? (
         <div className="reset">
-          <Button variant="contained" onClick={handleReset}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              handleReset(
+                gameWin,
+                setScores,
+                setDifficulty,
+                setGameBoard,
+                setRoundDone,
+                setGameStart,
+                setCurrentPlayer
+              );
+            }}
+          >
             Play Again
           </Button>
         </div>

@@ -26,7 +26,7 @@ function checkWin(board, player) {
   return gameWon;
 }
 
-function emptySquares(board) {
+export function emptySquares(board) {
   return board.filter((s) => typeof s == 'number');
 }
 
@@ -37,7 +37,7 @@ export function bestSpot(board) {
 
 function minimax(newBoard, player) {
   newBoard = convertBoard(newBoard);
-  var availSpots = emptySquares(newBoard);
+  const availSpots = emptySquares(newBoard);
 
   if (checkWin(newBoard, huPlayer)) {
     return { score: -10 };
@@ -46,14 +46,14 @@ function minimax(newBoard, player) {
   } else if (availSpots.length === 0) {
     return { score: 0 };
   }
-  var moves = [];
+ const moves = [];
   for (let i = 0; i < availSpots.length; i++) {
-    var move = {};
+    let move = {};
     move.index = newBoard[availSpots[i]];
     newBoard[availSpots[i]] = player;
 
     if (player === aiPlayer) {
-      var result = minimax(newBoard, huPlayer);
+      let result = minimax(newBoard, huPlayer);
       move.score = result.score;
     } else {
       let result = minimax(newBoard, aiPlayer);
