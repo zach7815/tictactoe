@@ -1,6 +1,5 @@
 # Rocket vs Aliens Tic Tac Toe
 
-> Outline a brief description of your project.
 > Live demo [Live Demo](https://zach7815.github.io/tictactoe/). <!-- If you have the project hosted somewhere, include the link here. -->
 
 ## Table of Contents
@@ -24,7 +23,7 @@ It solves to allow a user to play rounds locally against someone else (or themse
 
 I choose to do Tic Tac Toe as I wanted to challenge myself to build a game. I wanted ot learn how to control the state of a game and ensure that flow of code was correct and make a good user experience from it. In addition, I wanted to learn algorithms such as minimax to be able to get better at coding concepts like recursion for future projects.
 
-<!-- You don't have to answer all the questions - just the ones relevant to your project. -->
+
 
 ## Technologies Used
 
@@ -66,7 +65,9 @@ then npm run start
 
 ## Project Status
 
-Project is: _in progress_
+Project is: _No longer under development_
+
+I am currently working on bigger and more complex full stack applications. 
 
 ## Room for Improvement
 
@@ -74,7 +75,7 @@ Include areas you believe need improvement / could be improved. Also add TODOs f
 
 Room for improvement:
 
-- The code could do with some significant refactorring to make it cleaner and more maintainable.
+- The code could do with some significant refactoring to make it cleaner and more maintainable.
 - In implelementing the minimax I found many examples that used a 1 dimensional array where I had chosen a 2 dimensional matrix. This has meant the Impossible AI translates the gameboard from a matrix to a 1d array. In addition many examples used classes to make the gameboard and bind functions to it. This seems like a better approach to refactor the project to when I have time.
 - The useEffects that run the different difficulties could be made into hooks as their almost identical apart from difficulty and AI function implemented.
 
